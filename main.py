@@ -53,6 +53,8 @@ try:
   info = get.json()['user']
   print(f"Loading..")
   time.sleep(1)
+  print(f'Remember to join Carters Playground discord server https://discord.gg/6wUUy4Pbd6')
+  time.sleep(1)
   print(success+ f"Currently Logged in as {info['robloxUsername']}\nCurrent balance: {info['wallet']}\n\n")
 except:
   input(error+ "The Token You Provided Is Invalid\nPlease press enter to exit.")
