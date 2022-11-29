@@ -1,8 +1,18 @@
-import json, os, time, cloudscraper, webbrowser, pyautogui, random
+import json, os, time, cloudscraper, webbrowser, pyautogui, random, requests
 from discord_webhook import DiscordWebhook, DiscordEmbed
+from colored import fg
 spulelist = ['gay', 'emo', 'even more gay', 'idk but bad', 'shit', 'w halil']
 
 spule = random.choice(spulelist)
+
+infoclr = fg('cyan')
+errorclr = fg('red')
+doneclr = fg('green')
+successclr = fg('blue')
+info = (infoclr + "[INFO] ")
+error = (errorclr + "[ERROR] ")
+success = (successclr + "[SUCCESS] ")
+done = (doneclr + "[DONE] ")
 
 os.system(f'title Rain Joiner By: Carter, Edited by Mintey#0001^')
 
@@ -18,11 +28,11 @@ if os.path.exists('config.json'):
   ping = config['webhook_ping']
   auth = config['authorization']
 else:
-  auth1 = input("Your bloxflip authentification?: ")
-  webhookurl1 = input("Your discord webhook link (leave blank if none): ")
-  webhook1 = input("What message should webhook include when sending rain notification?: ")
+  auth1 = input(info +"Your bloxflip authentification?: ")
+  webhookurl1 = input(info +"Your discord webhook link (leave blank if none): ")
+  webhook1 = input(info +"What message should webhook include when sending rain notification?: ")
   time.sleep(1)
-  print("Creating config file with these needed things")
+  print(info +"Creating config file with these needed things")
   time.sleep(2)
   fp = open('config.json', 'w')
   fp.write('{')
@@ -32,9 +42,8 @@ else:
   fp.write('}')
   fp.close()
   time.sleep(1)
-  print("Succesfully done, restart app")
+  print(success +"Succesfully done, restart app")
   time.sleep(2)
-
 
 webhook = DiscordWebhook(url=webhookurl, content=f"{ping}")
 
@@ -44,9 +53,9 @@ try:
   info = get.json()['user']
   print(f"Loading..")
   time.sleep(1)
-  print(f"Currently Logged in as {info['robloxUsername']}\nCurrent balance: {info['wallet']}\n\n")
+  print(success+ f"Currently Logged in as {info['robloxUsername']}\nCurrent balance: {info['wallet']}\n\n")
 except:
-  input("The Token You Provided Is Invalid\nPlease press enter to exit.")
+  input(error+ "The Token You Provided Is Invalid\nPlease press enter to exit.")
   quit()
 if a == "True":
   thumburl = (f"https://www.roblox.com/headshot-thumbnail/image?userId={info['robloxId']}&height=50&width=50&format=png")
@@ -80,7 +89,7 @@ while True:
             webbrowser.get().open(url, new=0, autoraise=True)
             time.sleep(1)
             while True:
-              join = pyautogui.locateCenterOnScreen('assets/pro.png', confidence = 0.7)
+              join = pyautogui.locateCenterOnScreen('pro.png', confidence = 0.7)
               if join:
                 time.sleep(1)
                 pyautogui.moveTo(join)
@@ -92,7 +101,7 @@ while True:
             info = scraper.get("https://rest-bf.blox.land/user", headers = {"x-auth-token": f"{auth}"}).json()['user']
             checker = scraper.get("https://rest-bf.blox.land/chat/history").json()['rain']['players']
             if info['robloxId'] in checker:
-              print(f"Successfully joined rain!\nRain amount: {prize} R$\nExpiration: {duration} minutes\nHost: {host}\nTimestamp: {sent}\n\n")
+              print(success+ f"Successfully joined rain!\nRain amount: {prize} R$\nExpiration: {duration} minutes\nHost: {host}\nTimestamp: {sent}\n\n")
               if a == "True":
                 thumburl = (f"https://i.pinimg.com/originals/50/15/7f/50157f642817c455e2ed7028e6ad31a8.gif")
                 embed = DiscordEmbed(title=f"Successfully joined a rain!", url="https://bloxflip.com", color=0x6635EA)
@@ -106,7 +115,7 @@ while True:
                 webhook.execute()
                 webhook.remove_embed(0)
             else:
-              print(f"Failed to join rain!\nAmount: {prize} R$\nExpiration: {duration} mins\nHost: {host}\nTime: {sent}\n\n")
+              print(error+ f"Failed to join rain!\nAmount: {prize} R$\nExpiration: {duration} mins\nHost: {host}\nTime: {sent}\n\n")
               if a == "True":
                 thumburl = (f"https://i.pinimg.com/originals/50/15/7f/50157f642817c455e2ed7028e6ad31a8.gif")
                 embed = DiscordEmbed(title=f"Failed to join rain!", url="https://bloxflip.com", color=0xde1414)
